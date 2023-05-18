@@ -28,6 +28,17 @@ async function run() {
     const database = client.db("upar_edu_toy")
     const toys_collection = database.collection("toys")
     
+    app.get("/toys", async(req, res) => {
+        const toys = toys_collection.find()
+        const result = await toys.toArray()
+        res.send(result)
+    })
+
+    app.get("/toy/:id", async(req, res) => {
+        const id = req.params.id 
+        const toy = await toys_collection.findOne({_id: new ObjectId(id)})
+        res.send(toy)
+    })
 
     
   } catch(error) {
