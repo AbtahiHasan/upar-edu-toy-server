@@ -45,7 +45,7 @@ async function run() {
         console.log(req.query.email);
         let query = {};
         if (req.query?.email) {
-            query = { email: req.query.email }
+            query = { seller_email : req.query.email }
         }
         const result = await toys_collection.find(query).toArray();
         res.send(result);
