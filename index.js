@@ -61,6 +61,16 @@ async function run() {
       res.send(result)
 
     })
+    app.get("/sub-category", async (req, res) => {
+      const subCategoryName = req.query?.category
+      const subCategories = await toys_collection.find({sub_category: subCategoryName}).toArray()
+      const result = {
+        category_name: subCategoryName,
+        subCategories
+      }
+
+      res.send(result)
+    })
     app.post("/add-toy", async (req, res) => {
       const data = req.body
       const toy = {
