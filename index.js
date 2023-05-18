@@ -34,26 +34,7 @@ async function run() {
         res.send(result)
     })
    
-    app.post("/add-toy", async (req, res) => {
-      const data = req.body
-      const toy = {
-        photo_url: data.photo_url,
-        name: data.name,
-        seller_name: data.seller_name,
-        seller_email: data.seller_email,
-        sub_category: data.sub_category,
-        price: data.price,
-        rating: data.rating,
-        quantity: data.quantity,
-        description: datadescription
-      }
-
-      const result = await toys_collection.insertOne(toy)
-      res.send(result)
-  })
-
-  
-
+    
 
     app.get("/toy/:id", async(req, res) => {
         const id = req.params.id 
@@ -69,6 +50,46 @@ async function run() {
         const result = await toys_collection.find(query).toArray();
         res.send(result);
     })
+
+    app.post("/add-toy", async (req, res) => {
+      const data = req.body
+      const toy = {
+        photo_url: data.photo_url,
+        name: data.name,
+        seller_name: data.seller_name,
+        seller_email: data.seller_email,
+        sub_category: data.sub_category,
+        price: data.price,
+        rating: data.rating,
+        quantity: data.quantity,
+        description: data.description
+      }
+      console.log(toy)
+      const result = await toys_collection.insertOne(toy)
+      res.send(result)
+  })
+
+  app.put("/update/:id", async (req, res) => {
+    const id = req.params.id
+    const data = req.body
+    const result = await toys_collection.updateOne({_id: new ObjectId(id)}, {
+        $set: {
+          photo_url: data.photo_url,
+          name: data.name,
+          seller_name: data.seller_name,
+          seller_email: data.seller_email,
+          sub_category: data.sub_category,
+          price: data.price,
+          rating: data.rating,
+          quantity: data.quantity,
+          description: data.description
+        }},
+        {
+            upsert: true
+        }
+    )
+    res.send(result)
+})
 
 
     app.delete("/delete/:id", (req, res) => {
