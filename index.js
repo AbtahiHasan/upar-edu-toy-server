@@ -21,8 +21,8 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
+    client.connect();
+    client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!")
 
     const database = client.db("upar_edu_toy")
@@ -40,7 +40,7 @@ async function run() {
         res.send(toy)
     })
 
-    app.delete("/:id", (req, res) => {
+    app.delete("/delete/:id", (req, res) => {
         const id = req.params.id
         const result = toys_collection.deleteOne({_id: new ObjectId(id)})
         res.send(result)
