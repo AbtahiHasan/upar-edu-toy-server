@@ -40,7 +40,12 @@ async function run() {
         res.send(toy)
     })
 
-   
+    app.delete("/:id", (req, res) => {
+        const id = req.params.id
+        const result = toys_collection.deleteOne({_id: new ObjectId(id)})
+        res.send(result)
+    })
+
     
   } catch(error) {
     console.log(error)
