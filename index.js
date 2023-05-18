@@ -34,6 +34,26 @@ async function run() {
         res.send(result)
     })
    
+    app.post("/add-toy", async (req, res) => {
+      const data = req.body
+      const toy = {
+        photo_url: data.photo_url,
+        name: data.name,
+        seller_name: data.seller_name,
+        seller_email: data.seller_email,
+        sub_category: data.sub_category,
+        price: data.price,
+        rating: data.rating,
+        quantity: data.quantity,
+        description: datadescription
+      }
+
+      const result = await toys_collection.insertOne(toy)
+      res.send(result)
+  })
+
+  
+
 
     app.get("/toy/:id", async(req, res) => {
         const id = req.params.id 
@@ -42,7 +62,6 @@ async function run() {
     })
 
     app.get('/seller', async (req, res) => {
-        console.log(req.query.email);
         let query = {};
         if (req.query?.email) {
             query = { seller_email : req.query.email }
