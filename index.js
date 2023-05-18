@@ -28,6 +28,11 @@ async function run() {
     const database = client.db("upar_edu_toy")
     const toys_collection = database.collection("toys")
     
+
+    const indexKey = {name: 1}
+    const indexOption = {name: "toy_name"}
+    await toys_collection.createIndex(indexKey, indexOption)
+
     app.get("/toys", async(req, res) => {
         const toys = toys_collection.find()
         const result = await toys.toArray()
@@ -50,7 +55,12 @@ async function run() {
         const result = await toys_collection.find(query).toArray();
         res.send(result);
     })
+    app.get("/search", async(req, res) => {
+      const searchQuery = req.query?.query
+      const result = await toys_collection.find({name: {$regex: searchQuery, $options: "i"}}).toArray()
+      res.send(result)
 
+    })
     app.post("/add-toy", async (req, res) => {
       const data = req.body
       const toy = {
