@@ -40,7 +40,7 @@ async function run() {
     })
    
     app.get("/top-toys", async(req, res) => {
-      const toys = toys_collection.find().sort({rating: 1}).limit(6)
+      const toys = toys_collection.find({}, {sort: {rating: -1}}).limit(6)
       const result = await toys.toArray()
       res.send(result)
   })
