@@ -38,7 +38,22 @@ async function run() {
         const result = await toys.toArray()
         res.send(result)
     })
-   
+    app.get("/sort", async (req, res) => {
+      let sort_type = {};
+        if (req.query?.sortby) {
+          sort_type = { sort_by : req.query.sortby }
+        }
+        let query = {};
+        if (req.query?.email) {
+            query = { seller_email : req.query.email }
+        }
+
+      const asc_des = sort_type.sort_by === "ascending" ? 1 : -1
+      const toys = toys_collection.find(query, {sort: {rating: asc_des}})
+      const result = await toys.toArray()
+      res.send(result)
+
+    })
     app.get("/top-toys", async(req, res) => {
       const toys = toys_collection.find({}, {sort: {rating: -1}}).limit(6)
       const result = await toys.toArray()
