@@ -49,7 +49,7 @@ async function run() {
         }
 
       const asc_des = sort_type.sort_by === "ascending" ? 1 : -1
-      const toys = toys_collection.find(query, {sort: {rating: asc_des}})
+      const toys = toys_collection.find(query, {sort: {price: asc_des}})
       const result = await toys.toArray()
       res.send(result)
 
