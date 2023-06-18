@@ -21,9 +21,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    client.connect();
-    client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!")
+
 
     const database = client.db("upar_edu_toy")
     const toys_collection = database.collection("toys")
