@@ -25,6 +25,7 @@ async function run() {
 
     const database = client.db("upar_edu_toy")
     const toys_collection = database.collection("toys")
+    const cart_collection = database.collection("carts")
     
 
     const indexKey = {name: 1}
@@ -105,7 +106,14 @@ async function run() {
       const result = await toys_collection.insertOne(toy)
       res.send(result)
   })
+  app.get("/carts", async (req, res) => {
+    const email = req?.query?.email 
+    const result = await cart_collection.find({email: email}).toArray()
+    res.send(result)
+  })
+  app.post("/add-to-carts", async (req, res) => {
 
+  })
   app.put("/update/:id", async (req, res) => {
     const id = req.params.id
     const data = req.body
