@@ -102,7 +102,7 @@ async function run() {
         quantity: data.quantity,
         description: data.description
       }
-      console.log(toy)
+
       const result = await toys_collection.insertOne(toy)
       res.send(result)
   })
@@ -112,6 +112,18 @@ async function run() {
     res.send(result)
   })
   app.post("/add-to-carts", async (req, res) => {
+    const toy = req.body
+    const cart = {
+      toy_id: toy._id,
+      photo_url: toy.photo_url,
+      name: toy.name,
+      price: toy.price,
+      quantity: toy.quantity,
+      email: user?.email
+  }
+
+  const result = await cart_collection.insertOne(cart)
+  res.send(result)
 
   })
   app.put("/update/:id", async (req, res) => {
